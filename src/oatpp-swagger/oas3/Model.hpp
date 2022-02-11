@@ -258,6 +258,41 @@ class Tag : public oatpp::DTO {
 };
 
 /**
+ * ExternalDocs.
+ */
+class ExternalDocs : public oatpp::DTO {
+
+  DTO_INIT(ExternalDocs, DTO)
+
+  /**
+   * Url.
+   */
+  DTO_FIELD(String, url);
+
+  /**
+   * Description.
+   */
+  DTO_FIELD(String, description);
+
+  /**
+   * Create ExternalDocs from &id:oatpp::swagger::ExternalDocs;.
+   * @param model - &id:oatpp::swagger::ExternalDocs;.
+   * @return - ExternalDocs.
+   */
+  static Wrapper createFromBaseModel(const std::shared_ptr<oatpp::swagger::ExternalDocs>& model) {
+    if(model) {
+      auto result = createShared();
+      result->url = model->url;
+      result->description = model->description;
+
+      return result;
+    }
+    return nullptr;
+  }
+
+};
+
+/**
  * Server.
  */
 class Server : public oatpp::DTO {
@@ -751,7 +786,7 @@ class PathItem : public oatpp::DTO {
 };
 
 /**
- * Component.
+ * Components.
  */
 class Components : public oatpp::DTO {
 
@@ -763,14 +798,14 @@ class Components : public oatpp::DTO {
   DTO_FIELD(Fields<Object<Schema>>, schemas);
 
   /**
-   * Map of &id:oatpp::String; to &l:SecurityScheme;.
-   */
-  DTO_FIELD(Fields<Object<SecurityScheme>>, securitySchemes);
-
-  /**
    * Map of &id:oatpp::String; to &l:OperationResponse;.
    */
   DTO_FIELD(Fields<Object<OperationResponse>>, responses);
+
+  /**
+   * Map of &id:oatpp::String; to &l:SecurityScheme;.
+   */
+  DTO_FIELD(Fields<Object<SecurityScheme>>, securitySchemes);
 
 };
 
@@ -792,9 +827,19 @@ class Document : public oatpp::DTO {
   DTO_FIELD(Object<Info>, info);
 
   /**
+   * &l:ExternalDocs;.
+   */
+  DTO_FIELD(Object<ExternalDocs>, externalDocs);
+
+  /**
    * List of &l:Server;.
    */
   DTO_FIELD(List<Object<Server>>, servers);
+
+  /**
+   * List of &l:Tags;.
+   */
+  DTO_FIELD(List<Object<Tag>>, tags);
 
   /**
    * Map of &id:oatpp::String; to &l:PathItem;.
@@ -805,12 +850,6 @@ class Document : public oatpp::DTO {
    * &l:Components;.
    */
   DTO_FIELD(Object<Components>, components);
-
-  /**
-   * List of &l:Tags;.
-   */
-  DTO_FIELD(List<Object<Tag>>, tags);
-
 };
 
 #include OATPP_CODEGEN_END(DTO)

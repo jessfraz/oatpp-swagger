@@ -220,6 +220,31 @@ struct Server {
 };
 
 /**
+ * ExternalDocs
+ */
+struct ExternalDocs {
+
+  /**
+   * Create shared ExternalDocs.
+   * @return - 'std::shared_ptr' to ExternalDocs.
+   */
+  static std::shared_ptr<ExternalDocs> createShared() {
+    return std::make_shared<ExternalDocs>();
+  }
+
+  /**
+   * Url.
+   */
+  String url;
+
+  /**
+   * Description.
+   */
+  String description;
+
+};
+
+/**
  * OAuth flow Object https://swagger.io/specification/#oauthFlowObject
  */
 struct OAuthFlow {
@@ -358,6 +383,11 @@ public:
    * List of &l:Tag;.
    */
   std::shared_ptr<std::list<std::shared_ptr<Tag>>> tags;
+
+  /**
+   * &l:ExternalDocs;.
+   */
+  std::shared_ptr<ExternalDocs> externalDocs;
 
   /**
    * Map of &id:oatpp::String; to &l:SecurityScheme;.
@@ -634,6 +664,7 @@ public:
     std::shared_ptr<DocumentHeader> m_header;
     std::shared_ptr<std::list<std::shared_ptr<Server>>> m_servers;
     std::shared_ptr<std::list<std::shared_ptr<Tag>>> m_tags;
+    std::shared_ptr<ExternalDocs> m_externalDocs;
     std::shared_ptr<std::unordered_map<oatpp::String, std::shared_ptr<SecurityScheme>>> m_securitySchemes;
 
   private:
@@ -774,6 +805,19 @@ public:
     }
 
     /**
+     * Add &l:ExternalDocs;.
+     * @param url
+     * @param description
+     * @return - &l:DocumentInfo::Builder;.
+     */
+    Builder& addExternalDocs(const oatpp::String& url, const oatpp::String& description) {
+      m_externalDocs = ExternalDocs::createShared();
+      m_externalDocs->url = url;
+      m_externalDocs->description = description;
+      return *this;
+    }
+
+    /**
      * Add &l:Server;.
      * @param url
      * @param description
@@ -836,6 +880,7 @@ public:
       document->header = m_header;
       document->servers = m_servers;
       document->tags = m_tags;
+      document->externalDocs = m_externalDocs;
       document->securitySchemes = m_securitySchemes;
       return document;
     }
