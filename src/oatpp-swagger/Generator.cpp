@@ -596,10 +596,7 @@ oatpp::Object<oas3::Components> Generator::generateComponents(const UsedTypes &d
     it ++;
   }
 
-  auto it = usedOperationResponses.begin();
-  if (it != usedOperationResponses.end()) {
-   result->responses = usedOperationResponses;
-  }
+  result->responses = usedOperationResponses;
 
   if(securitySchemes) {
     result->securitySchemes = {};
@@ -698,7 +695,7 @@ oatpp::Object<oas3::Document> Generator::generateDocument(const std::shared_ptr<
   }
 
   UsedTypes usedTypes;
-  UsedOperationResponses usedOperationResponses;
+  UsedOperationResponses usedOperationResponses = Fields<Object<oas3::OperationResponse>>::createShared();
   UsedSecuritySchemes usedSecuritySchemes;
   document->paths = generatePaths(endpoints, usedTypes, usedOperationResponses, usedSecuritySchemes);
   auto decomposedTypes = decomposeTypes(usedTypes);
