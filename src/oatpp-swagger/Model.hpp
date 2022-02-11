@@ -355,6 +355,11 @@ public:
   std::shared_ptr<std::list<std::shared_ptr<Server>>> servers;
 
   /**
+   * List of &l:Tag;.
+   */
+  std::shared_ptr<std::list<std::shared_ptr<Tag>>> tags;
+
+  /**
    * Map of &id:oatpp::String; to &l:SecurityScheme;.
    */
    std::shared_ptr<std::unordered_map<oatpp::String, std::shared_ptr<SecurityScheme>>> securitySchemes;
