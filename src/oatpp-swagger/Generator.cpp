@@ -359,7 +359,9 @@ oatpp::Fields<Object<oas3::OperationResponse>> Generator::generateResponses(cons
       response->description = hint.second.description.get() == nullptr ? hint.first.description : hint.second.description;
       responses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = response;
 
-      usedOperationResponses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = response;
+      if (hint.first.code > 299) {
+        usedOperationResponses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = response;
+      }
     }
 
   } else {
