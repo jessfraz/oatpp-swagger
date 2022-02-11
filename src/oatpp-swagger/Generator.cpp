@@ -694,6 +694,19 @@ oatpp::Object<oas3::Document> Generator::generateDocument(const std::shared_ptr<
 
   }
 
+  if (docInfo->tags) {
+    document->tags = {};
+    for (const auto &tag : *docInfo->tags) {
+      document->tags->push_back(oas3::Tag::createFromBaseModel(tag));
+    }
+  }
+
+
+  if (docInfo->externalDocs) {
+    document->externalDocs = oas3::ExternalDocumentation::createFromBaseModel(docInfo->externalDocs);
+  }
+
+
   UsedTypes usedTypes;
   UsedOperationResponses usedOperationResponses = Fields<Object<oas3::OperationResponse>>::createShared();
   UsedSecuritySchemes usedSecuritySchemes;
