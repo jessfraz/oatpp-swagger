@@ -77,13 +77,19 @@ private:
   oatpp::Object<oas3::Schema> generateSchemaForType(const Type* type, bool linkSchema, UsedTypes& usedTypes, oatpp::BaseObject::Property* property = nullptr, const oatpp::Void& defaultValue = nullptr);
 
   oatpp::Object<oas3::RequestBody> generateRequestBody(const Endpoint::Info& endpointInfo, bool linkSchema, UsedTypes& usedTypes);
-  Fields<Object<oas3::OperationResponse>> generateResponses(const Endpoint::Info& endpointInfo, bool linkSchema, UsedTypes& usedTypes);
-  void generatePathItemData(const std::shared_ptr<Endpoint>& endpoint, const oatpp::Object<oas3::PathItem>& pathItem, UsedTypes& usedTypes, UsedSecuritySchemes &usedSecuritySchemes);
+  Fields<Object<oas3::OperationResponse>> generateResponses(const Endpoint::Info& endpointInfo, bool linkSchema, UsedTypes& usedTypes,
+    UsedOperationResponses& usedOperationResponses
+      );
+  void generatePathItemData(const std::shared_ptr<Endpoint>& endpoint, const oatpp::Object<oas3::PathItem>& pathItem, UsedTypes& usedTypes,
+    UsedOperationResponses& usedOperationResponses,
+      UsedSecuritySchemes &usedSecuritySchemes);
 
   /*
    *  UsedTypes& usedTypes is used to put Types of objects whos schema should be reused
    */
-  Paths generatePaths(const Endpoints& endpoints, UsedTypes& usedTypes, UsedSecuritySchemes &usedSecuritySchemes);
+  Paths generatePaths(const Endpoints& endpoints, UsedTypes& usedTypes,
+    UsedOperationResponses& usedOperationResponses,
+      UsedSecuritySchemes &usedSecuritySchemes);
 
   oatpp::Object<oas3::SecurityScheme> generateSecurityScheme(const std::shared_ptr<oatpp::swagger::SecurityScheme> &ss);
 
