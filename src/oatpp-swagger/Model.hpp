@@ -173,8 +173,8 @@ struct Tag {
    * Create shared Tag.
    * @return - 'std::shared_ptr' to Tag.
    */
-  static std::shared_ptr<Server> createShared() {
-    return std::make_shared<Server>();
+  static std::shared_ptr<Tag> createShared() {
+    return std::make_shared<Tag>();
   }
 
   /**
