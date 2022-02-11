@@ -41,7 +41,7 @@ namespace oatpp { namespace swagger { namespace oas3 {
  * Contact.
  */
 class Contact : public oatpp::DTO {
-  
+
   DTO_INIT(Contact, DTO)
 
   /**
@@ -74,14 +74,14 @@ class Contact : public oatpp::DTO {
     }
     return nullptr;
   }
-  
+
 };
 
 /**
  * License.
  */
 class License : public oatpp::DTO {
-  
+
   DTO_INIT(License, DTO)
 
   /**
@@ -108,14 +108,14 @@ class License : public oatpp::DTO {
     }
     return nullptr;
   }
-  
+
 };
 
 /**
  * Info.
  */
 class Info : public oatpp::DTO {
-  
+
   DTO_INIT(Info, DTO)
 
   /**
@@ -166,14 +166,14 @@ class Info : public oatpp::DTO {
     }
     return nullptr;
   }
-  
+
 };
 
 /**
  * Server Variable.
  */
 class ServerVariable : public oatpp::DTO {
-  
+
   DTO_INIT(ServerVariable, DTO)
 
   /**
@@ -197,36 +197,71 @@ class ServerVariable : public oatpp::DTO {
    * @return - ServerVariable.
    */
   static Wrapper createFromBaseModel(const std::shared_ptr<oatpp::swagger::ServerVariable>& model) {
-    
+
     if(model) {
-      
+
       auto result = createShared();
       result->description = model->description;
-      
+
       if(model->enumValues) {
-        
+
         result->enumValues = List<String>::createShared();
         for(const auto &it : *model->enumValues) {
           result->enumValues->push_back(it);
         }
-        
+
       }
-      
+
       return result;
-      
+
     }
-    
+
     return nullptr;
-    
+
   }
-  
+
+};
+
+/**
+ * Tag.
+ */
+class Tag : public oatpp::DTO {
+
+  DTO_INIT(Tag, DTO)
+
+  /**
+   * Name.
+   */
+  DTO_FIELD(String, name);
+
+  /**
+   * Description.
+   */
+  DTO_FIELD(String, description);
+
+  /**
+   * Create Tag from &id:oatpp::swagger::Tag;.
+   * @param model - &id:oatpp::swagger::Tag;.
+   * @return - Tag.
+   */
+  static Wrapper createFromBaseModel(const std::shared_ptr<oatpp::swagger::Tag>& model) {
+    if(model) {
+      auto result = createShared();
+      result->name = model->name;
+      result->description = model->description;
+
+      return result;
+    }
+    return nullptr;
+  }
+
 };
 
 /**
  * Server.
  */
 class Server : public oatpp::DTO {
-  
+
   DTO_INIT(Server, DTO)
 
   /**
@@ -254,9 +289,9 @@ class Server : public oatpp::DTO {
       auto result = createShared();
       result->url = model->url;
       result->description = model->description;
-      
+
       if(model->variables) {
-        
+
         result->variables = {};
 
         for(const auto &it : *model->variables){
@@ -264,19 +299,19 @@ class Server : public oatpp::DTO {
         }
 
       }
-      
+
       return result;
     }
     return nullptr;
   }
-  
+
 };
 
 /**
  * Schema.
  */
 class Schema : public oatpp::DTO {
-  
+
   DTO_INIT(Schema, DTO)
 
   /**
@@ -293,12 +328,12 @@ class Schema : public oatpp::DTO {
    * Description of the field.
    */
   DTO_FIELD(String, description);
-  
+
   /**
    * Default value for the field.
    */
   DTO_FIELD(Any, defaultValue, "default");
-  
+
   /**
    * Pattern value for the field.
    */
@@ -349,7 +384,7 @@ class Schema : public oatpp::DTO {
    * Ref.
    */
   DTO_FIELD(String, ref, "$ref");
-  
+
 };
 
 /**
@@ -375,7 +410,7 @@ class Example : public oatpp::DTO {
  * Media type object.
  */
 class MediaTypeObject : public oatpp::DTO {
-  
+
   DTO_INIT(MediaTypeObject, DTO)
 
   /**
@@ -404,7 +439,7 @@ public:
     return example;
 
   }
-  
+
 };
 
 /**
@@ -516,7 +551,7 @@ class SecurityScheme : public oatpp::DTO {
  * Operation Response.
  */
 class OperationResponse : public oatpp::DTO {
-  
+
   DTO_INIT(OperationResponse, DTO)
 
   /**
@@ -528,14 +563,14 @@ class OperationResponse : public oatpp::DTO {
    * &l:MediaTypeObject;.
    */
   DTO_FIELD(Fields<Object<MediaTypeObject>>, content);
-  
+
 };
 
 /**
  * Request body.
  */
 class RequestBody : public oatpp::DTO {
-  
+
   DTO_INIT(RequestBody, DTO)
 
   /**
@@ -552,14 +587,14 @@ class RequestBody : public oatpp::DTO {
    * &l:MediaTypeObject;.
    */
   DTO_FIELD(Fields<Object<MediaTypeObject>>, content);
-  
+
 };
 
 /**
  * Path item parameter.
  */
 class PathItemParameter : public oatpp::DTO {
-  
+
   DTO_INIT(PathItemParameter, DTO)
 
   /**
@@ -613,7 +648,7 @@ public:
     return example;
 
   }
-  
+
 };
 
 /**
@@ -669,7 +704,7 @@ class PathItemOperation : public oatpp::DTO {
  * Path item.
  */
 class PathItem : public oatpp::DTO {
-  
+
   DTO_INIT(PathItem, DTO)
 
   /**
@@ -712,14 +747,14 @@ class PathItem : public oatpp::DTO {
    */
   DTO_FIELD(Object<PathItemOperation>, operationTrace, "trace");
   //DTO_FIELD(List<PathItemParameter>, parameters);
-  
+
 };
 
 /**
  * Component.
  */
 class Components : public oatpp::DTO {
-  
+
   DTO_INIT(Components, DTO)
 
   /**
@@ -732,13 +767,18 @@ class Components : public oatpp::DTO {
    */
   DTO_FIELD(Fields<Object<SecurityScheme>>, securitySchemes);
 
+  /**
+   * Map of &id:oatpp::String; to &l:OperationResponse;.
+   */
+  DTO_FIELD(Fields<Object<OperationResponse>>, responses);
+
 };
 
 /**
  * Document.
  */
 class Document : public oatpp::DTO {
-  
+
   DTO_INIT(Document, DTO)
 
   /**
@@ -765,9 +805,14 @@ class Document : public oatpp::DTO {
    * &l:Components;.
    */
   DTO_FIELD(Object<Components>, components);
-  
+
+  /**
+   * List of &l:Tags;.
+   */
+  DTO_FIELD(List<Object<Tag>>, tags);
+
 };
-  
+
 #include OATPP_CODEGEN_END(DTO)
 }}}
 

@@ -61,7 +61,7 @@ struct Contact {
    * email.
    */
   String email;
-  
+
 };
 
 /**
@@ -86,7 +86,7 @@ struct License {
    * Url.
    */
   String url;
-  
+
 };
 
 /**
@@ -131,7 +131,7 @@ struct DocumentHeader {
    * Version.
    */
   String version;
-  
+
 };
 
 /**
@@ -161,7 +161,32 @@ struct ServerVariable {
    * Default value.
    */
   String defaultValue;
-  
+
+};
+
+/**
+ * Tag
+ */
+struct Tag {
+
+  /**
+   * Create shared Tag.
+   * @return - 'std::shared_ptr' to Tag.
+   */
+  static std::shared_ptr<Server> createShared() {
+    return std::make_shared<Server>();
+  }
+
+  /**
+   * Name.
+   */
+  String name;
+
+  /**
+   * Description.
+   */
+  String description;
+
 };
 
 /**
@@ -191,7 +216,7 @@ struct Server {
    * Variables.
    */
   std::shared_ptr<std::unordered_map<String, std::shared_ptr<ServerVariable>>> variables;
-  
+
 };
 
 /**
@@ -600,9 +625,10 @@ public:
    */
   class Builder {
   private:
-    
+
     std::shared_ptr<DocumentHeader> m_header;
     std::shared_ptr<std::list<std::shared_ptr<Server>>> m_servers;
+    std::shared_ptr<std::list<std::shared_ptr<Tag>>> m_tags;
     std::shared_ptr<std::unordered_map<oatpp::String, std::shared_ptr<SecurityScheme>>> m_securitySchemes;
 
   private:
@@ -613,7 +639,7 @@ public:
       }
       return m_header;
     }
-    
+
     std::shared_ptr<Contact> getContact() {
       auto header = getHeader();
       if(!header->contact) {
@@ -621,7 +647,7 @@ public:
       }
       return header->contact;
     }
-    
+
     std::shared_ptr<License> getLicense() {
       auto header = getHeader();
       if(!header->license) {
@@ -636,7 +662,7 @@ public:
       }
       return m_securitySchemes;
     }
-    
+
   public:
 
     /**
@@ -756,6 +782,32 @@ public:
     }
 
     /**
+     * Add &l:Tag;.
+     * @param server - &l:Tag;.
+     * @return - &l:DocumentInfo::Builder;.
+     */
+    Builder& addTag(const std::shared_ptr<Tag>& server) {
+      if(!m_tags) {
+        m_tags = std::make_shared<std::list<std::shared_ptr<Tag>>>();
+      }
+      m_tags->push_back(server);
+      return *this;
+    }
+
+    /**
+     * Add &l:Tag;.
+     * @param name
+     * @param description
+     * @return - &l:DocumentInfo::Builder;.
+     */
+    Builder& addTag(const oatpp::String& name, const oatpp::String& description) {
+      auto server = Tag::createShared();
+      server->name = name;
+      server->description = description;
+      return addTag(server);
+    }
+
+    /**
      * Add &l:SecurityScheme;.
      * When you are using the `AUTHENTICATION()` Endpoint-Macro you must add an [SecurityScheme](https://swagger.io/specification/#securitySchemeObject).
      * For basic-authentication you can use the default &id:oatpp::swagger::DocumentInfo::SecuritySchemeBuilder::DefaultBasicAuthorizationSecurityScheme;.
@@ -778,14 +830,15 @@ public:
       auto document = DocumentInfo::createShared();
       document->header = m_header;
       document->servers = m_servers;
+      document->tags = m_tags;
       document->securitySchemes = m_securitySchemes;
       return document;
     }
-    
+
   };
-  
+
 };
-  
+
 }}
 
 #endif /* oatpp_swagger_Config_hpp */
