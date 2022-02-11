@@ -56,7 +56,7 @@ public:
 
   typedef std::unordered_map<oatpp::String, const Type*> UsedTypes;
 
-  typedef std::unordered_map<oatpp::String, const Object<oas3::OperationResponse>> UsedOperationResponses;
+  typedef Fields<Object<oas3::OperationResponse>> UsedOperationResponses;
 
   typedef std::unordered_map<oatpp::String, bool> UsedSecuritySchemes;
 

@@ -597,9 +597,8 @@ oatpp::Object<oas3::Components> Generator::generateComponents(const UsedTypes &d
   }
 
   auto it = usedOperationResponses.begin();
-  while (it != usedOperationResponses.end()) {
-    result->responses[it->first] = it->second;
-    it ++;
+  if (it != usedOperationResponses.end()) {
+   result->responses = usedOperationResponses;
   }
 
   if(securitySchemes) {
