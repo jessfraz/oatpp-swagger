@@ -51,10 +51,12 @@ public:
   typedef oatpp::web::server::api::Endpoints Endpoints;
 
   typedef oatpp::List<Object<oas3::PathItemParameter>> PathItemParameters;
-  
+
   typedef Fields<Object<oas3::PathItem>> Paths;
-  
+
   typedef std::unordered_map<oatpp::String, const Type*> UsedTypes;
+
+  typedef std::unordered_map<oatpp::String, const oatpp::Object<oas3::OperationResponse>> UsedOperationResponses;
 
   typedef std::unordered_map<oatpp::String, bool> UsedSecuritySchemes;
 
@@ -77,7 +79,7 @@ private:
   oatpp::Object<oas3::RequestBody> generateRequestBody(const Endpoint::Info& endpointInfo, bool linkSchema, UsedTypes& usedTypes);
   Fields<Object<oas3::OperationResponse>> generateResponses(const Endpoint::Info& endpointInfo, bool linkSchema, UsedTypes& usedTypes);
   void generatePathItemData(const std::shared_ptr<Endpoint>& endpoint, const oatpp::Object<oas3::PathItem>& pathItem, UsedTypes& usedTypes, UsedSecuritySchemes &usedSecuritySchemes);
-  
+
   /*
    *  UsedTypes& usedTypes is used to put Types of objects whos schema should be reused
    */
@@ -91,8 +93,9 @@ private:
   void decomposeEnum(const Type* type, UsedTypes& decomposedTypes);
   void decomposeType(const Type* type, UsedTypes& decomposedTypes);
   UsedTypes decomposeTypes(UsedTypes& usedTypes);
-  
+
   oatpp::Object<oas3::Components> generateComponents(const UsedTypes &decomposedTypes,
+                                                    const UsedOperationResponses &usedOperationResponses,
                                                      const std::shared_ptr<std::unordered_map<oatpp::String,std::shared_ptr<oatpp::swagger::SecurityScheme>>> &securitySchemes,
                                                      UsedSecuritySchemes &usedSecuritySchemes);
 
@@ -122,7 +125,7 @@ public:
   oatpp::Object<oas3::Document> generateDocument(const std::shared_ptr<oatpp::swagger::DocumentInfo>& docInfo, const Endpoints& endpoints);
 
 };
-  
+
 }}
 
 #endif /* oatpp_swagger_Generator_hpp */
