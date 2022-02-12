@@ -599,6 +599,11 @@ class OperationResponse : public oatpp::DTO {
    */
   DTO_FIELD(Fields<Object<MediaTypeObject>>, content);
 
+  /**
+   * Ref.
+   */
+  DTO_FIELD(String, ref, "$ref");
+
 };
 
 /**

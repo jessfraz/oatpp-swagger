@@ -362,8 +362,9 @@ oatpp::Fields<Object<oas3::OperationResponse>> Generator::generateResponses(cons
         usedOperationResponses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = response;
 
         auto new_response = oas3::OperationResponse::createShared();
-        new_response->ref = "#/components/responses/" + hint.first.code;
-        responses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = new_response;
+        auto str_code = oatpp::utils::conversion::int32ToStr(hint.first.code)
+        new_response->ref = "#/components/responses/" + std::string(str_code);
+        responses[str_code] = new_response;
       } else {
         responses[oatpp::utils::conversion::int32ToStr(hint.first.code)] = response;
       }
